@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caixa Surpresa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #caixa {
+            margin: 50px auto;
+            padding: 50px;
+            border: 2px dashed #aaa;
+            border-radius: 10px;
+            width: 500px;
+            background-color: #fff;
+        }
+
+        .item {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+
+        .item img {
+            max-width: 400px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .item p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Simulador de Caixa Surpresa</h1>
+    <div id="caixa">
+        <button onclick="abrirCaixa()">Abrir Caixa</button>
+        <div class="item" id="item1">
+            <img src="" alt="Item 1" id="item1-img">
+            <p id="item1-nome"></p>
+        </div>
+        <div class="item" id="item2">
+            <img src="" alt="Item 2" id="item2-img">
+            <p id="item2-nome"></p>
+        </div>
+    </div>
+
+    <script>
+        const itens1 = [
+            { nome: "Medium Island of Serenity", raridade: "Epic", chance: 2 },
+            { nome: "Medium Island of Harmony", raridade: "Epic", chance: 1.2 },
+            { nome: "Medium Island of Bliss", raridade: "Legendary", chance: 0.82 },
+            { nome: "Medium Island of Tranquility", raridade: "Rare", chance: 0.4 },
+            { nome: "Small Island of Serenity", raridade: "Epic", chance: 2 },
+            { nome: "Small Island of Harmony", raridade: "Epic", chance: 1.2 },
+            { nome: "Small Island of Bliss", raridade: "Legendary", chance: 0.82 },
+            { nome: "Small Island of Tranquility", raridade: "Rare", chance: 0.4 },
+            { nome: "Phantom Armor (Rare)", raridade: "Rare", chance: 3.59 },
+            { nome: "Phantom Armor (Epic)", raridade: "Epic", chance: 2.4 },
+            { nome: "Phantom Armor (Legendary)", raridade: "Legendary", chance: 1.2 },
+            { nome: "Refined Armors Artifact", raridade: "Uncommon", chance: 8.02 },
+            { nome: "Tuned Armors Artifact", raridade: "Uncommon", chance: 10.99 },
+            { nome: "Enchanted Armors Artifact", raridade: "Uncommon", chance: 5.84 },
+            { nome: "Magical Armors Artifact", raridade: "Rare", chance: 3.64 },
+            { nome: "Refined Tools Artifact", raridade: "Uncommon", chance: 6.14 },
+            { nome: "Tuned Tools Artifact", raridade: "Uncommon", chance: 8.21 },
+            { nome: "Enchanted Tools Artifact", raridade: "Uncommon", chance: 4.38 },
+            { nome: "Magical Tools Artifact", raridade: "Rare", chance: 2.74 },
+            { nome: "Refined Weapons Artifact", raridade: "Uncommon", chance: 4.1 },
+            { nome: "Tuned Weapons Artifact", raridade: "Uncommon", chance: 5.48 },
+            { nome: "Enchanted Weapons Artifact", raridade: "Uncommon", chance: 2.92 },
+            { nome: "Magical Weapons Artifact", raridade: "Rare", chance: 1.82 },
+            { nome: "Island of Joy", raridade: "Epic", chance: 1.2 },
+            { nome: "Island of Happiness", raridade: "Epic", chance: 1.2 },
+            { nome: "Island of Merriment", raridade: "Rare", chance: 0.6 },
+            { nome: "Island of Delight", raridade: "Epic", chance: 0.8 },
+            { nome: "Runic Axe (Rare)", raridade: "Rare", chance: 3.59 },
+            { nome: "Runic Axe (Epic)", raridade: "Epic", chance: 2.4 },
+            { nome: "Runic Axe (Legendary)", raridade: "Legendary", chance: 1.2 },
+            { nome: "Gemstone Pickaxe (Epic)", raridade: "Epic", chance: 1 },
+            { nome: "Gemstone Pickaxe (Legendary)", raridade: "Legendary", chance: 0.5 },
+            { nome: "Assassin Blades (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Assassin Blades (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Assassin Blades (Legendary)", raridade: "Legendary", chance: 0.2 },
+            { nome: "Spiked Club (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Spiked Club (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Spiked Club (Legendary)", raridade: "Legendary", chance: 0.2 },
+            { nome: "Valor Dual Axes (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Valor Dual Axes (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Valor Dual Axes (Legendary)", raridade: "Legendary", chance: 0.2 },
+            { nome: "Champion Greathammer (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Champion Greathammer (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Champion Greathammer (Legendary)", raridade: "Legendary", chance: 0.2 },
+            { nome: "Storm Katana (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Storm Katana (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Storm Katana (Legendary)", raridade: "Legendary", chance: 0.2 },
+            { nome: "Defender Sword & Shield (Rare)", raridade: "Rare", chance: 0.6 },
+            { nome: "Defender Sword & Shield (Epic)", raridade: "Epic", chance: 0.4 },
+            { nome: "Defender Sword & Shield (Legendary)", raridade: "Legendary", chance: 0.2 }
+        ];
+
+        const itens2 = [
+            { nome: "Robust Armors Artifact", raridade: "Common", chance: 36.54 },
+            { nome: "Refined Armors Artifact", raridade: "Uncommon", chance: 6.58 },
+            // Adicione os outros itens aqui.
+        ];
+
+        function sortearItem(lista) {
+            const totalChance = lista.reduce((sum, item) => sum + item.chance, 0);
+            const sorteio = Math.random() * totalChance;
+            let acumulado = 0;
+
+            for (const item of lista) {
+                acumulado += item.chance;
+                if (sorteio <= acumulado) {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
+        function abrirCaixa() {
+            const item1 = sortearItem(itens1);
+            const item2 = sortearItem(itens2);
+
+            document.getElementById('item1-img').src = `images/${item1.nome.toLowerCase().replace(/ /g, '-')}.png`;
+            document.getElementById('item1-nome').innerText = `${item1.nome} (${item1.raridade})`;
+            document.getElementById('item1').style.display = 'block';
+
+            document.getElementById('item2-img').src = `images/${item2.nome.toLowerCase().replace(/ /g, '-')}.png`;
+            document.getElementById('item2-nome').innerText = `${item2.nome} (${item2.raridade})`;
+            document.getElementById('item2').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
